@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">testing codes</string>
+    <string name="action_settings">Settings</string>
+    <string name="tvChooseImage">Select the Image to Decode</string>
+        <string name="bChooseImage">SELECT</string>
+    
+    <string name="hide">HIDE</string>
+    <string name="Reveal">REVEAL</string>
+    <string name="btext"> Tap to hide message</string>
+    <string name="tvtext">Click To Hide your Message</string>
+    <string name="tvreveal">Reveal the message from your Image</string>
+
+
+</resources>
