@@ -12,14 +12,7 @@
         android:id="@+id/app_bar"
         layout="@layout/app_bar" />
 
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/adView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-7172050946649011/1862794681"        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" /></RelativeLayout>
+ </RelativeLayout>
        <Button
         android:id="@+id/choose_encoded_image"
         android:layout_width="290dp"
