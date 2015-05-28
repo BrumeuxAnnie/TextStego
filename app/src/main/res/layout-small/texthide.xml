@@ -84,12 +84,5 @@
         android:layout_alignLeft="@+id/b_img_camera_text"
         android:layout_alignStart="@+id/b_img_camera_text" />
 
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/adView"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-7172050946649011/1862794681" />
-
 
 </RelativeLayout>

@@ -87,13 +87,7 @@
         android:layout_toRightOf="@+id/bhidetext"
         android:layout_toEndOf="@+id/bhidetext" />
 
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/adView"
-        android:layout_width="wrap_content"
-        android:layout_height="65dp"
-        ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-7172050946649011/1862794681"        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+
 
 
 </RelativeLayout>
