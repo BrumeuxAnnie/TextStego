@@ -27,7 +27,7 @@ public class MainActivity extends ActionBarActivity  {
 
     private void init() {
 
-        mHideBtn = (Button) findViewById(R.id.btext);
+        mHideBtn   = (Button) findViewById(R.id.btext);
         mRevealBtn = (Button) findViewById(R.id.button_reveal_msg);
 
     }
@@ -38,16 +38,19 @@ public class MainActivity extends ActionBarActivity  {
 
             @Override
             public void onClick(View v) {
-                Intent x = new Intent(getApplicationContext(), RevealInfo.class);
-                startActivity(x);
+                openClass(RevealInfo.class);
             }
         });
         mHideBtn.setOnClickListener(new OnClickListener() {
 
             public void onClick(View v) {
-                Intent t = new Intent(getApplicationContext(), TextHide.class);
-                startActivity(t);
+                openClass(TextHide.class);
             }
         });
+    }
+
+    private void openClass(Class nextClass){
+        Intent i = new Intent(getApplicationContext(), nextClass);
+        startActivity(i);
     }
 }
