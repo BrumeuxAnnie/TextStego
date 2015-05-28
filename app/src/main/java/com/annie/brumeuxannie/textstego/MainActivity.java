@@ -9,12 +9,16 @@ import android.widget.Button;
 
 import com.annie.brumeuxannie.textstego.R;
 
-public class MainActivity extends ActionBarActivity  {
+public class MainActivity extends ActionBarActivity {
 
-    /** Button for Hide Message Activity */
+    /**
+     * Button for Hide Message Activity
+     */
     private Button mHideBtn;
 
-    /** Button for Reveal Data Activity */
+    /**
+     * Button for Reveal Data Activity
+     */
     private Button mRevealBtn;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +33,7 @@ public class MainActivity extends ActionBarActivity  {
 
     private void init() {
 
-        mHideBtn   = (Button) findViewById(R.id.btext);
+        mHideBtn = (Button) findViewById(R.id.btext);
         mRevealBtn = (Button) findViewById(R.id.button_reveal_msg);
 
     }
@@ -51,7 +55,7 @@ public class MainActivity extends ActionBarActivity  {
         });
     }
 
-    private void openClass(Class nextClass){
+    private void openClass(Class nextClass) {
         Intent i = new Intent(getApplicationContext(), nextClass);
         startActivity(i);
     }
