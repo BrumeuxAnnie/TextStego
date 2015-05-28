@@ -30,8 +30,10 @@
         android:layout_gravity="center"
         android:src="@drawable/untitled"
         android:layout_below="@+id/tv_select_image"
-        android:layout_toRightOf="@+id/adView"
-        android:layout_toEndOf="@+id/adView" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="80dp"
+        android:layout_marginEnd="80dp" />
 
     <EditText
         android:id="@+id/etText"
@@ -87,7 +89,17 @@
         android:layout_toRightOf="@+id/bhidetext"
         android:layout_toEndOf="@+id/bhidetext" />
 
-
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="65dp"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-7172050/1881"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/b_img_lib_text"
+        android:layout_toEndOf="@+id/b_img_lib_text"
+        android:layout_marginLeft="86dp"
+        android:layout_marginStart="86dp" />
 
 
 </RelativeLayout>

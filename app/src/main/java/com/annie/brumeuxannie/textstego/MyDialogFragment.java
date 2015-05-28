@@ -1,4 +1,4 @@
-package com.example.brumeuxannie.textstego;
+package com.annie.brumeuxannie.textstego;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

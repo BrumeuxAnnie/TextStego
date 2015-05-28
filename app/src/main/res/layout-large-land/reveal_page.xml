@@ -48,7 +48,8 @@
         android:textSize="20sp"
         android:layout_alignBottom="@+id/revealation_image"
         android:layout_alignLeft="@+id/choose_encoded_image"
-        android:layout_alignStart="@+id/choose_encoded_image" />
+        android:layout_alignStart="@+id/choose_encoded_image"
+        android:layout_marginBottom="55dp" />
 
     <TextView
         android:id="@+id/textReveal"
@@ -64,6 +65,28 @@
         android:layout_alignEnd="@+id/revealation_image"
         android:layout_marginRight="107dp"
         android:layout_marginEnd="107dp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:id="@+id/bar"
+            android:background="#4caf50"
+
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            ads:adSize="BANNER"
+            ads:adUnitId="ca-app-pub-7172050946649011/1862794681"
+            android:layout_gravity="center_horizontal"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
 
 </RelativeLayout>

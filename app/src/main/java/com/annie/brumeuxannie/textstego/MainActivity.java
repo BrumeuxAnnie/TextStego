@@ -1,4 +1,4 @@
-package com.example.brumeuxannie.textstego;
+package com.annie.brumeuxannie.textstego;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+
+import com.annie.brumeuxannie.textstego.R;
 
 public class MainActivity extends ActionBarActivity  {
 

@@ -30,9 +30,9 @@
         android:text="@string/tvreveal"
         android:textColor="#000000"
         android:textSize="20sp"
-        android:layout_marginTop="47dp"
-        android:layout_below="@+id/btext"
-        android:layout_centerHorizontal="true" />
+        android:layout_above="@+id/bar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="96dp" />
 
     <Button
         android:id="@+id/btext"
@@ -42,16 +42,16 @@
         android:text="@string/btext"
         android:textColor="#000000"
         android:textSize="20sp"
-        android:layout_marginTop="65dp"
-        android:layout_below="@+id/app_bar"
         android:background="@drawable/buttonxml"
 
-        android:layout_alignLeft="@+id/button_reveal_msg"
-        android:layout_alignStart="@+id/button_reveal_msg"
         android:focusable="true"
         android:singleLine="false"
         android:textColorHighlight="#ff1fff96"
-        android:shadowColor="#ff4caf50" />
+        android:shadowColor="#ff4caf50"
+        android:layout_alignBaseline="@+id/button_reveal_msg"
+        android:layout_alignBottom="@+id/button_reveal_msg"
+        android:layout_alignLeft="@+id/button_reveal_msg"
+        android:layout_alignStart="@+id/button_reveal_msg" />
 
     <ImageView
         android:layout_width="match_parent"
@@ -62,5 +62,15 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
-
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-7172050946649011/4954678682"
+        android:layout_alignTop="@+id/bar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>

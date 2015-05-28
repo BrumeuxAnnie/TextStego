@@ -58,6 +58,24 @@
 
         android:textColor="#000000"
         android:textSize="10sp" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:id="@+id/bar"
+            android:background="#4caf50"
+ />
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            ads:adSize="BANNER"
+            ads:adUnitId="ca-app-pub-7172051/14681"
+            android:layout_gravity="center_horizontal"
+            />
+    </RelativeLayout>
 
 
 </LinearLayout>

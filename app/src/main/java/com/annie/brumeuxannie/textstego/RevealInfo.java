@@ -1,4 +1,4 @@
-package com.example.brumeuxannie.textstego;
+package com.annie.brumeuxannie.textstego;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -21,10 +21,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+
 import java.io.FileNotFoundException;
 
 public class RevealInfo extends ActionBarActivity implements OnClickListener {
 
+
+    private InterstitialAd interstitial;
 
     Button reveal, chooseImage;
 
@@ -87,8 +94,43 @@ public class RevealInfo extends ActionBarActivity implements OnClickListener {
         //function containing widget declaration and listeners
         widgetsEventHandling();
 
+        advertisement();
 
 
+    }
+    private void advertisement() {
+        // Prepare the Interstitial Ad
+        interstitial = new InterstitialAd(RevealInfo.this);
+// Insert the Ad Unit ID
+        interstitial.setAdUnitId("ca-app-pub-71720501/21405");
+        //Locate the Banner Ad in activity_main.xml
+        AdView adView = (AdView) this.findViewById(R.id.adView);
+
+// Request for Ads
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+
+// Load ads into Banner Ads
+        adView.loadAd(adRequest);
+
+// Load ads into Interstitial Ads
+        interstitial.loadAd(adRequest);
+
+// Prepare an Interstitial Ad Listener
+        interstitial.setAdListener(new AdListener() {
+            public void onAdLoaded() {
+// Call displayInterstitial() function
+                displayInterstitial();
+            }
+        });
+
+    }
+
+    public void displayInterstitial() {
+// If Ads are loaded, show Interstitial else show nothing.
+        if (interstitial.isLoaded()) {
+            interstitial.show();
+        }
     }
 
     /**

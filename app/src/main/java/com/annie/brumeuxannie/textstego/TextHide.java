@@ -1,4 +1,4 @@
-package com.example.brumeuxannie.textstego;
+package com.annie.brumeuxannie.textstego;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -31,6 +31,12 @@ import android.widget.ImageView;
 import android.widget.ShareActionProvider;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -41,6 +47,9 @@ import java.util.List;
 
 
 public class TextHide extends ActionBarActivity implements OnClickListener {
+
+
+    private InterstitialAd interstitial;
 
 
     private ShareActionProvider mShareActionProvider;
@@ -81,8 +90,44 @@ public class TextHide extends ActionBarActivity implements OnClickListener {
         /** to set changes in bitmap, change it to mutable */
         object.bmp = object.bmp.copy(Bitmap.Config.ARGB_8888, true);
 
+        advertisement();
+
     }
 
+    private void advertisement() {
+        // Prepare the Interstitial Ad
+        interstitial = new InterstitialAd(TextHide.this);
+// Insert the Ad Unit ID
+        interstitial.setAdUnitId("ca-app-pub-71720509/214813");
+        //Locate the Banner Ad in activity_main.xml
+        AdView adView = (AdView) this.findViewById(R.id.adView);
+
+// Request for Ads
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+
+// Load ads into Banner Ads
+        adView.loadAd(adRequest);
+
+// Load ads into Interstitial Ads
+        interstitial.loadAd(adRequest);
+
+// Prepare an Interstitial Ad Listener
+        interstitial.setAdListener(new AdListener() {
+            public void onAdLoaded() {
+// Call displayInterstitial() function
+                displayInterstitial();
+            }
+        });
+
+    }
+
+    public void displayInterstitial() {
+// If Ads are loaded, show Interstitial else show nothing.
+        if (interstitial.isLoaded()) {
+            interstitial.show();
+        }
+    }
 
     @Override
     /**Get the size of the Image view after the Activity has completely loaded*/

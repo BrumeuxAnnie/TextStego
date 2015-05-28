@@ -53,12 +53,12 @@
         android:background="@drawable/buttonxml"
         android:text="@string/hide"
         android:textColor="#000000"
-        android:textSize="25sp"
-        android:layout_marginRight="45dp"
-        android:layout_marginEnd="45dp"
+        android:textSize="23sp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginStart="50dp"
         android:layout_alignBottom="@+id/display_image"
-        android:layout_alignRight="@+id/b_img_lib_text"
-        android:layout_alignEnd="@+id/b_img_lib_text" />
+        android:layout_alignLeft="@+id/adView"
+        android:layout_alignStart="@+id/adView" />
 
     <Button
         android:id="@+id/b_img_camera_text"
@@ -86,6 +86,17 @@
         android:layout_toLeftOf="@+id/display_image"
         android:layout_toStartOf="@+id/display_image" />
 
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-7172011/1861"
+        android:layout_below="@+id/display_image"
+        android:layout_alignLeft="@+id/b_img_camera_text"
+        android:layout_alignStart="@+id/b_img_camera_text"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 
 

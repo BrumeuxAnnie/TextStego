@@ -40,10 +40,10 @@
         android:ems="10"
         android:hint="enter ur text here"
         android:textColor="#000000"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="40dp"
         android:layout_below="@+id/b_img_camera_text"
-        android:layout_alignLeft="@+id/b_img_camera_text"
-        android:layout_alignStart="@+id/b_img_camera_text" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:id="@+id/bhidetext"
@@ -54,24 +54,27 @@
         android:text="@string/hide"
         android:textColor="#000000"
         android:textSize="25sp"
-        android:layout_marginLeft="60dp"
-        android:layout_marginStart="60dp"
-        android:layout_alignBottom="@+id/display_image"
-        android:layout_alignLeft="@+id/etText"
-        android:layout_alignStart="@+id/etText" />
+        android:layout_marginLeft="65dp"
+        android:layout_marginStart="65dp"
+        android:layout_below="@+id/etText"
+        android:layout_alignLeft="@+id/b_img_camera_text"
+        android:layout_alignStart="@+id/b_img_camera_text"
+        android:layout_marginTop="30dp" />
 
     <Button
         android:id="@+id/b_img_camera_text"
         android:layout_width="140dp"
         android:layout_height="40dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/buttonxml"
         android:text="Take new"
         android:textColor="#000000"
         android:textSize="20sp"
-        android:layout_marginLeft="15dp"
-        android:layout_alignTop="@+id/b_img_lib_text"
+        android:layout_below="@+id/tv_select_image"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="33dp"
+        android:layout_marginStart="33dp" />
 
     <Button
         android:id="@+id/b_img_lib_text"
@@ -81,11 +84,21 @@
         android:text="library"
         android:textColor="#000000"
         android:textSize="20sp"
-        android:layout_marginTop="41dp"
-        android:layout_below="@+id/tv_select_image"
+        android:layout_above="@+id/etText"
         android:layout_toLeftOf="@+id/display_image"
         android:layout_toStartOf="@+id/display_image" />
 
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-7172050946649011/1862794681"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/etText"
+        android:layout_alignEnd="@+id/etText" />
 
 
 

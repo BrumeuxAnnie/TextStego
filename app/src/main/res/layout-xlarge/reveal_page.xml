@@ -42,6 +42,7 @@
         android:id="@+id/revealation_image"
         android:layout_width="500dp"
         android:layout_height="500dp"
+        android:layout_marginTop="40dp"
         android:layout_gravity="center"
         android:src="@drawable/ic_launcher"
         android:layout_below="@+id/textReveal"
@@ -58,15 +59,43 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" /></RelativeLayout>
 
-    <Button
-        android:id="@+id/reveal_button"
-        android:layout_width="500dp"
-        android:layout_height="120dp"
-        android:layout_gravity="center"
-        android:layout_margin="10dp"
-        android:background="@drawable/buttonxml"
-        android:text="@string/Reveal"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:id="@+id/bar"
+            android:background="#4caf50"
 
-        android:textColor="#000000"
-        android:textSize="40sp" />
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            ads:adSize="BANNER"
+            ads:adUnitId="ca-app-pub-71720011/18681"
+            android:layout_gravity="center_horizontal"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/bar" />
+
+        <Button
+            android:id="@+id/reveal_button"
+            android:layout_width="500dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:background="@drawable/buttonxml"
+            android:text="@string/Reveal"
+            android:textColor="#000000"
+            android:textSize="40sp"
+            android:layout_marginTop="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
 </LinearLayout>

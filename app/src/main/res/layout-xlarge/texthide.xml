@@ -9,6 +9,18 @@
     <include
         android:id="@+id/app_bar"
         layout="@layout/app_bar" />
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-7172051/18621"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignLeft="@+id/bhidetext"
+        android:layout_alignStart="@+id/bhidetext" />
+
 
     <TextView
         android:id="@+id/tv_select_image"
@@ -67,8 +79,8 @@
         android:textColor="#000000"
         android:textSize="45sp"
         android:layout_alignTop="@+id/b_img_lib_text"
-        android:layout_alignRight="@+id/adView"
-        android:layout_alignEnd="@+id/adView" />
+        android:layout_alignLeft="@+id/display_image"
+        android:layout_alignStart="@+id/display_image" />
 
     <Button
         android:id="@+id/b_img_lib_text"
