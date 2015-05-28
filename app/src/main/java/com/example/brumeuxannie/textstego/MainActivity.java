@@ -3,38 +3,38 @@ package com.example.brumeuxannie.textstego;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+
 public class MainActivity extends ActionBarActivity  {
 
-    private Toolbar toolbar;
+    /** Button for Hide Message Activity */
+    private Button mHideBtn;
 
-
-    /**
-     * to hide image data
-     */
-    private Button b_text;
-
-    /**
-     * toreveal image data
-     */
-    private Button b_reveal;
+    /** Button for Reveal Data Activity */
+    private Button mRevealBtn;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        init();
 
+        setUpButtonListeners();
 
-        toolbar = (Toolbar) findViewById(R.id.app_bar);
-        setSupportActionBar(toolbar);
+    }
 
+    private void init() {
 
-        b_text = (Button) findViewById(R.id.btext);
-        b_reveal = (Button) findViewById(R.id.button_reveal_msg);
-        b_reveal.setOnClickListener(new OnClickListener() {
+        mHideBtn = (Button) findViewById(R.id.btext);
+        mRevealBtn = (Button) findViewById(R.id.button_reveal_msg);
+
+    }
+
+    private void setUpButtonListeners() {
+
+        mRevealBtn.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -42,7 +42,7 @@ public class MainActivity extends ActionBarActivity  {
                 startActivity(x);
             }
         });
-        b_text.setOnClickListener(new OnClickListener() {
+        mHideBtn.setOnClickListener(new OnClickListener() {
 
             public void onClick(View v) {
                 Intent t = new Intent(getApplicationContext(), TextHide.class);
@@ -50,6 +50,4 @@ public class MainActivity extends ActionBarActivity  {
             }
         });
     }
-
-
 }
