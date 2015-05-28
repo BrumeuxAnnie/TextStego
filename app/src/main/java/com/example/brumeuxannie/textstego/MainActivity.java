@@ -4,19 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ShareActionProvider;
-
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.InterstitialAd;
-public class MainActivity extends ActionBarActivity implements
-		OnClickListener {
+public class MainActivity extends ActionBarActivity  {
 
     private Toolbar toolbar;
 
@@ -60,8 +51,5 @@ public class MainActivity extends ActionBarActivity implements
         });
     }
 
-    @Override
-    public void onClick (View v){
 
-    }
 }
