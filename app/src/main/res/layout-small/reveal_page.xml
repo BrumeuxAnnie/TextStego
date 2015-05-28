@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar" />
+
+
+       <Button
+        android:id="@+id/choose_encoded_image"
+        android:layout_width="90dp"
+        android:layout_height="20dp"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:background="@drawable/buttonxml"
+        android:text="@string/bChooseImage"
+        android:textColor="#000000"
+        android:textSize="10sp" />
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/revealation_image"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_launcher"
+        android:layout_below="@+id/textReveal"
+        android:layout_centerHorizontal="true" />
+    <TextView
+        android:id="@+id/textReveal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Large Text"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#000000"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/revealation_image"
+        android:layout_alignEnd="@+id/revealation_image"
+        android:layout_toRightOf="@+id/revealation_image"
+        android:layout_toEndOf="@+id/revealation_image" />
+</RelativeLayout>
+    <Button
+        android:id="@+id/reveal_button"
+        android:layout_width="90dp"
+        android:layout_height="20dp"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:background="@drawable/buttonxml"
+        android:text="@string/Reveal"
+
+        android:textColor="#000000"
+        android:textSize="10sp" />
+
+
+</LinearLayout>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar" />
+
+    <TextView
+        android:id="@+id/tv_select_image"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/app_bar"
+        android:layout_marginTop="5dp"
+        android:text="select the image from library or take a new one from camera"
+        android:textColor="#000000"
+        android:textSize="25sp"
+        android:gravity="center"/>
+
+
+    <ImageView
+        android:id="@+id/display_image"
+        android:layout_width="350dp"
+        android:layout_height="240dp"
+        android:layout_gravity="center"
+        android:src="@drawable/untitled"
+        android:layout_alignTop="@+id/b_img_lib_text"
+        android:layout_toRightOf="@+id/etText"
+        android:layout_toEndOf="@+id/etText" />
+
+    <EditText
+        android:id="@+id/etText"
+        android:layout_width="450dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="enter ur text here"
+        android:textColor="#000000"
+        android:layout_marginBottom="47dp"
+        android:layout_above="@+id/bhidetext"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/bhidetext"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/buttonxml"
+        android:text="@string/hide"
+        android:textColor="#000000"
+        android:textSize="25sp"
+        android:layout_below="@+id/display_image"
+        android:layout_alignLeft="@+id/b_img_camera_text"
+        android:layout_alignStart="@+id/b_img_camera_text"
+        android:layout_marginLeft="78dp"
+        android:layout_marginStart="78dp" />
+
+    <Button
+        android:id="@+id/b_img_camera_text"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/b_img_lib_text"
+        android:layout_marginLeft="27dp"
+        android:background="@drawable/buttonxml"
+        android:text="Take new"
+        android:textColor="#000000"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/b_img_lib_text"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+
+        android:background="@drawable/buttonxml"
+        android:text="library"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:layout_below="@+id/tv_select_image"
+        android:layout_alignRight="@+id/etText"
+        android:layout_alignEnd="@+id/etText"
+        android:layout_marginRight="58dp"
+        android:layout_marginEnd="58dp"
+        android:layout_marginTop="47dp" />
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-7172050946649011/1862794681"        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/b_img_lib_text"
+        android:layout_alignStart="@+id/b_img_lib_text"
+        android:layout_marginLeft="107dp"
+        android:layout_marginStart="107dp" />
+
+
+</RelativeLayout>

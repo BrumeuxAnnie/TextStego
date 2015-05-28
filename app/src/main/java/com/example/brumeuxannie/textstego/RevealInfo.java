@@ -341,6 +341,7 @@ public class RevealInfo extends ActionBarActivity implements OnClickListener {
 
         if (v.getId() == R.id.choose_encoded_image) {
 
+
             myImage.setAlpha(getResources().getDrawable(R.drawable.ic_launcher).getAlpha());
             myText = "";
             myTextView.setVisibility(View.GONE);

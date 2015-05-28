@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar" />
+
+    <TextView
+        android:id="@+id/tv_select_image"
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/app_bar"
+        android:layout_marginTop="2dp"
+        android:text="select the image from library or take a new one from camera"
+        android:textColor="#000000"
+        android:textSize="10sp" />
+
+
+    <ImageView
+        android:id="@+id/display_image"
+        android:layout_width="70dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:src="@drawable/untitled"
+        android:layout_below="@+id/tv_select_image"
+        android:layout_toRightOf="@+id/bhidetext"
+        android:layout_toEndOf="@+id/bhidetext" />
+
+    <EditText
+        android:id="@+id/etText"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:ems="10"
+        android:hint="enter ur text here"
+        android:textColor="#000000"
+        android:layout_alignBottom="@+id/display_image"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/bhidetext"
+        android:layout_width="50dp"
+        android:layout_height="25dp"
+        android:layout_gravity="center"
+        android:background="@drawable/buttonxml"
+        android:text="@string/hide"
+        android:textColor="#000000"
+        android:textSize="10sp"
+        android:layout_below="@+id/etText"
+        android:layout_alignRight="@+id/etText"
+        android:layout_alignEnd="@+id/etText"
+        android:layout_marginRight="23dp"
+        android:layout_marginEnd="23dp" />
+
+    <Button
+        android:id="@+id/b_img_camera_text"
+        android:layout_width="50dp"
+        android:layout_height="25dp"
+        android:background="@drawable/buttonxml"
+        android:text="Take new"
+        android:textColor="#000000"
+        android:textSize="10sp"
+        android:layout_alignTop="@+id/display_image"
+        android:layout_alignRight="@+id/bhidetext"
+        android:layout_alignEnd="@+id/bhidetext" />
+
+    <Button
+        android:id="@+id/b_img_lib_text"
+        android:layout_width="50dp"
+        android:layout_height="25dp"
+        android:background="@drawable/buttonxml"
+        android:text="library"
+        android:textColor="#000000"
+        android:textSize="10sp"
+        android:layout_above="@+id/etText"
+        android:layout_alignLeft="@+id/b_img_camera_text"
+        android:layout_alignStart="@+id/b_img_camera_text" />
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-7172050946649011/1862794681" />
+
+
+</RelativeLayout>
