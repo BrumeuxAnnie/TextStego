@@ -500,7 +500,7 @@ public class TextHide extends ActionBarActivity implements OnClickListener {
                 object.bmp = (BitmapFactory.decodeStream(object.stream));
                 Log.i("path of image from gallery......******************.........",
                         picturePath + "");
-                object.myImage.setImageBitmap(decodeSampledBitmapFromResource(
+                object.myImage.setImageBitmap(object.decodeSampledBitmapFromResource(
                         getResources(), picturePath, object.xDim, object.yDim));
 
             }
@@ -511,37 +511,7 @@ public class TextHide extends ActionBarActivity implements OnClickListener {
         object.bmp = object.bmp.copy(Bitmap.Config.ARGB_8888, true);
     }
 
-    private Bitmap decodeSampledBitmapFromResource(Resources resources,
-                                                   String picturePath, int xDim2, int yDim2) {
-        /** First decode with inJustDecodeBounds=true to check dimensions */
-        final Options options = new Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(picturePath, options);
-        /** Calculate inSampleSize */
-        options.inSampleSize = calculateInSampleSize(options, xDim2, yDim2);
-        /** Decode bitmap with inSampleSize set */
-        options.inJustDecodeBounds = false;
-        return BitmapFactory.decodeFile(picturePath, options);
-    }
 
-    private int calculateInSampleSize(Options options, int xDim2, int yDim2) {
-        int inSampleSize = 1; // Default subsampling size
-        // See if image raw height and width is bigger than that of required
-        // view
-        if (options.outHeight > xDim2 || options.outWidth > yDim2) {
-            // bigger
-            final int halfHeight = options.outHeight / 2;
-            final int halfWidth = options.outWidth / 2;
-            // Calculate the largest inSampleSize value that is a power of 2 and
-            // keeps both
-            // height and width larger than the requested height and width.
-            while ((halfHeight / inSampleSize) > xDim2
-                    && (halfWidth / inSampleSize) > yDim2) {
-                inSampleSize *= 2;
-            }
-        }
-        return inSampleSize;
-    }
 
     @Override
     public void onClick(View v) {

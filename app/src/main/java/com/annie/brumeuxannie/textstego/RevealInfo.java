@@ -54,6 +54,9 @@ public class RevealInfo extends ActionBarActivity implements OnClickListener {
 
     public L object = new L();
 
+    boolean running = true;
+
+
 
 
     @Override
@@ -63,6 +66,7 @@ public class RevealInfo extends ActionBarActivity implements OnClickListener {
 
         obj.bmp = BitmapFactory.decodeResource(getResources(),
                 R.drawable.ic_launcher);
+
 
 
         //function containing widget declaration and listeners
@@ -87,6 +91,7 @@ public class RevealInfo extends ActionBarActivity implements OnClickListener {
     class MyTask extends AsyncTask<Void, Void, Void> {
 
 
+        MyTask task;
         @Override
         //to cancel the task if info is not available
         //called when cancel(true) is executed
@@ -95,7 +100,7 @@ public class RevealInfo extends ActionBarActivity implements OnClickListener {
             myTextView.setVisibility(View.VISIBLE);
             myTextView.setText("Your image does not contain any information");
             myText = "";
-            obj.running = false;
+            running = false;
         }
 
         @Override
@@ -108,6 +113,11 @@ public class RevealInfo extends ActionBarActivity implements OnClickListener {
 
             //to check if the selected image contains information
             checkData();
+
+            if (isCancelled())
+            {
+                return (null); // don't forget to terminate this method
+            }
 
             /**to store 15 bit length, 15 pixels*/
             int[] pixelVal = new int[15];
@@ -288,8 +298,11 @@ public class RevealInfo extends ActionBarActivity implements OnClickListener {
                 //if it is not same, there is no info available
                 //cancel the operation
                 //execute onCancelled()
-                if (pix != script2[i])
+                if (pix != script2[i]) {
+                    Log.i("hello","info not available");
                     cancel(true);
+                }
+                Log.i("hello","info available");
             }
         }
     }
@@ -299,15 +312,17 @@ public class RevealInfo extends ActionBarActivity implements OnClickListener {
 
         if (v.getId() == R.id.reveal_button) {
 
-            //on clicking reveal ,async task is called and executed
             MyTask myTask = new MyTask();
+
+            //on clicking reveal ,async task is called and executed
             myTask.execute();
         }
 
         if (v.getId() == R.id.choose_encoded_image) {
 
 
-            myImage.setAlpha(getResources().getDrawable(R.drawable.ic_launcher).getAlpha());
+
+            myImage.setAlpha(255);
             myText = "";
             myTextView.setVisibility(View.GONE);
             Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
@@ -346,44 +361,13 @@ public class RevealInfo extends ActionBarActivity implements OnClickListener {
                 obj.bmp = (BitmapFactory.decodeStream(object.stream));
                 Log.i("path of image from gallery......******************.........",
                         picturePath + "");
-                myImage.setImageBitmap(decodeSampledBitmapFromResource(
+                myImage.setImageBitmap(obj.decodeSampledBitmapFromResource(
                         getResources(), picturePath, obj.xDim, obj.yDim));
 
             }
         }
     }
 
-    private Bitmap decodeSampledBitmapFromResource(Resources resources,
-                                                   String picturePath, int xDim2, int yDim2) {
-        /** First decode with inJustDecodeBounds=true to check dimensions */
-        final Options options = new Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(picturePath, options);
-        /** Calculate inSampleSize */
-        options.inSampleSize = calculateInSampleSize(options, xDim2, yDim2);
-        /** Decode bitmap with inSampleSize set */
-        options.inJustDecodeBounds = false;
-        return BitmapFactory.decodeFile(picturePath, options);
-    }
-
-    private int calculateInSampleSize(Options options, int xDim2, int yDim2) {
-        int inSampleSize = 1; // Default subsampling size
-        // See if image raw height and width is bigger than that of required
-        // view
-        if (options.outHeight > xDim2 || options.outWidth > yDim2) {
-            // bigger
-            final int halfHeight = options.outHeight / 2;
-            final int halfWidth = options.outWidth / 2;
-            // Calculate the largest inSampleSize value that is a power of 2 and
-            // keeps both
-            // height and width larger than the requested height and width.
-            while ((halfHeight / inSampleSize) > xDim2
-                    && (halfWidth / inSampleSize) > yDim2) {
-                inSampleSize *= 2;
-            }
-        }
-        return inSampleSize;
-    }
 
 
     private void init() {
@@ -413,4 +397,5 @@ public class RevealInfo extends ActionBarActivity implements OnClickListener {
         mRevealBtn.setOnClickListener(this);
         mChooseImageBtn.setOnClickListener(this);
     }
+
 }
