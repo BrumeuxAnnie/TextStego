@@ -13,6 +13,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore.MediaColumns;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,107 +32,47 @@ import java.io.FileNotFoundException;
 public class RevealInfo extends ActionBarActivity implements OnClickListener {
 
 
-    private InterstitialAd interstitial;
+    /**button to reveal message from image*/
+    private Button mRevealBtn;
 
-    Button reveal, chooseImage;
-
+    /**button to choose image that contains message*/
+    private Button  mChooseImageBtn;
     /**
      * to display selected image
      */
     ImageView myImage;
 
-    Bitmap bmp;
-
+    /**to display the secret message*/
     TextView myTextView;
+
+    public L obj = new L();
 
     /**
      * text displayed when no image is selected and revealed button is pressed
      */
     String myText = "You have not selected any image";
 
-    /**
-     * variable to store eqt binary bit, used in diff places
-     */
-    int eqtBin = 0;
-
-    /**
-     * to store decimal ascii of character
-     */
-    int[] decimal;
-
-    /**
-     * to store the length of the text
-     */
-    int length = 0;
-
     public L object = new L();
-    int xDim, yDim;
-    /**
-     * to count the no of pixels to be extracted after finding length of the
-     * hidden text
-     */
-    int extractCount = 0;
 
-    /**
-     * to keep count of no of rows and columns to b accessed in d image for
-     * extraction
-     */
-    int row, column;
 
-    /**
-     * to keep count of pixels
-     */
-    int m = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reveal_page);
 
-        bmp = BitmapFactory.decodeResource(getResources(),
+        obj.bmp = BitmapFactory.decodeResource(getResources(),
                 R.drawable.ic_launcher);
 
+
         //function containing widget declaration and listeners
-        widgetsEventHandling();
+        init();
 
-        advertisement();
+        setUpButtonListeners();
 
-
-    }
-    private void advertisement() {
-        // Prepare the Interstitial Ad
-        interstitial = new InterstitialAd(RevealInfo.this);
-// Insert the Ad Unit ID
-        interstitial.setAdUnitId("ca-app-pub-71720501/21405");
-        //Locate the Banner Ad in activity_main.xml
-        AdView adView = (AdView) this.findViewById(R.id.adView);
-
-// Request for Ads
-        AdRequest adRequest = new AdRequest.Builder().build();
-
-
-// Load ads into Banner Ads
-        adView.loadAd(adRequest);
-
-// Load ads into Interstitial Ads
-        interstitial.loadAd(adRequest);
-
-// Prepare an Interstitial Ad Listener
-        interstitial.setAdListener(new AdListener() {
-            public void onAdLoaded() {
-// Call displayInterstitial() function
-                displayInterstitial();
-            }
-        });
-
+        obj.advertisement();
     }
 
-    public void displayInterstitial() {
-// If Ads are loaded, show Interstitial else show nothing.
-        if (interstitial.isLoaded()) {
-            interstitial.show();
-        }
-    }
 
     /**
      * Get the size of the Image view after the Activity has completely loaded
@@ -139,16 +80,12 @@ public class RevealInfo extends ActionBarActivity implements OnClickListener {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        xDim = myImage.getWidth();
-        yDim = myImage.getHeight();
+        obj.xDim = myImage.getWidth();
+        obj.yDim = myImage.getHeight();
     }
 
     class MyTask extends AsyncTask<Void, Void, Void> {
 
-        /**
-         * to handle the running state of async task
-         */
-        private boolean running = true;
 
         @Override
         //to cancel the task if info is not available
@@ -158,7 +95,7 @@ public class RevealInfo extends ActionBarActivity implements OnClickListener {
             myTextView.setVisibility(View.VISIBLE);
             myTextView.setText("Your image does not contain any information");
             myText = "";
-            running = false;
+            obj.running = false;
         }
 
         @Override
@@ -175,89 +112,75 @@ public class RevealInfo extends ActionBarActivity implements OnClickListener {
             /**to store 15 bit length, 15 pixels*/
             int[] pixelVal = new int[15];
 
-            /**length in 15 bit binary*/
-            int[] decodeLengthBit = new int[15];
-
             for (int i = 0; i <= 14; i++) {
                 // storing pixel value of first 15 pixels to extract length
-                pixelVal[i] = Color.red(bmp.getPixel(0, i));
+                pixelVal[i] = Color.red(obj.bmp.getPixel(0, i));
 
-                eqtBin = 0;//to store the binary eqt
+                obj.eqtBin = 0;//to store the binary eqt
 
                 // converting extracted pixel to binary
-                eqtBin = Integer.parseInt(Integer.toBinaryString(pixelVal[i]));
+                obj.eqtBin = Integer.parseInt(Integer.toBinaryString(pixelVal[i]));
                 Log.i("pixel",
                         Integer.toString(pixelVal[i]) + "="
-                                + Integer.toString(eqtBin));
+                                + Integer.toString(obj.eqtBin));
 
                 /** storing lsb of 15 pixels to extract length */
-                decodeLengthBit[i] = eqtBin % 2;
+                obj.binary15DigLength[i] = obj.eqtBin % 2;
 
             }
 
             //to determine the decimal value of extracted binary length
-            length = convertPixelsToDecimal(decodeLengthBit);
+            obj.len = convertPixelsToDecimal(obj.binary15DigLength);
 
             Log.i("length",
-                    Integer.toString(length) + "="
-                            + Integer.toString(decodeLengthBit[0])
-                            + Integer.toString(decodeLengthBit[1])
-                            + Integer.toString(decodeLengthBit[2])
-                            + Integer.toString(decodeLengthBit[3])
-                            + Integer.toString(decodeLengthBit[4])
-                            + Integer.toString(decodeLengthBit[5])
-                            + Integer.toString(decodeLengthBit[6])
-                            + Integer.toString(decodeLengthBit[7])
-                            + Integer.toString(decodeLengthBit[8])
-                            + Integer.toString(decodeLengthBit[9])
-                            + Integer.toString(decodeLengthBit[10])
-                            + Integer.toString(decodeLengthBit[11])
-                            + Integer.toString(decodeLengthBit[12])
-                            + Integer.toString(decodeLengthBit[13])
-                            + Integer.toString(decodeLengthBit[14]));
+                    Integer.toString(obj.len) + "="
+                            + Integer.toString(obj.binary15DigLength[0])
+                            + Integer.toString(obj.binary15DigLength[1])
+                            + Integer.toString(obj.binary15DigLength[2])
+                            + Integer.toString(obj.binary15DigLength[3])
+                            + Integer.toString(obj.binary15DigLength[4])
+                            + Integer.toString(obj.binary15DigLength[5])
+                            + Integer.toString(obj.binary15DigLength[6])
+                            + Integer.toString(obj.binary15DigLength[7])
+                            + Integer.toString(obj.binary15DigLength[8])
+                            + Integer.toString(obj.binary15DigLength[9])
+                            + Integer.toString(obj.binary15DigLength[10])
+                            + Integer.toString(obj.binary15DigLength[11])
+                            + Integer.toString(obj.binary15DigLength[12])
+                            + Integer.toString(obj.binary15DigLength[13])
+                            + Integer.toString(obj.binary15DigLength[14]));
 
             /**no of characters=length
              * no of bits in in character=8
              * total no of bits to be extracted  = (length*8)*/
-            extractCount = length * 8;
+            obj.extractCount = obj.len * 8;
 
-            int width = bmp.getWidth();
+             obj.width = obj.bmp.getWidth();
+
+            obj.countRowColumn();
 
 
-            // to count the no of rows and columns of the image to be accessed
-            if (extractCount < width) {
-                //if the no of bits<width of image, no of columns to access =no of bits
-                //it is over in the 1st row itself
-                column = extractCount;
-                row = 1;
-            } else {
-                //if bits>width, whole column is to b accessed
-                //no of rows =
-                column = width;
-                row =  object.extractCount/width;
-            }
-
-            m = 15;// 14 pixel already accessed for length
+            obj.m = 15;// 14 pixel already accessed for length
 
             /**to extract the pixels containing the infornation of length no of characters, each of 8 bits*/
-            int[][] extractedPixel = new int[length][8];
+            int[][] extractedPixel = new int[obj.len][8];
 
-            decimal = new int[length];
+            obj.messageData = new int[obj.len];
             int c = 0;// to access through columns of lsbBit=8
             int len = 0;// to move rows of lsbBit=length
-            int lsbBit[][] = new int[length][8];
+            int lsbBit[][] = new int[obj.len][8];
 
-            for (int j = 0; j < row; j++) {
-                for (int k = 0; k < column; k++) {
+            for (int j = 0; j < obj.row; j++) {
+                for (int k = 0; k < obj.column; k++) {
                     //pixel extracted
-                    extractedPixel[len][c] = Color.red(bmp.getPixel(j, m));
+                    extractedPixel[len][c] = Color.red(obj.bmp.getPixel(j, obj.m));
 
                     //lsb of the extracted pixel taken
-                    lsbBit[len][c] = convertToBinary(extractedPixel[len][c]);
-                    if (m < width)
-                        m++;
+                    lsbBit[len][c] = takeLsbOfBinPixel(extractedPixel[len][c]);
+                    if (obj.m <  obj.width)
+                        obj.m++;
                     else
-                        m = 0;
+                        obj.m = 0;
                     if (c == 7) {
                         c = 0;
                         len++;// to move to next row for next character
@@ -271,9 +194,9 @@ public class RevealInfo extends ActionBarActivity implements OnClickListener {
                 convertToDecimal(lsbBit);
 
                 Log.i("info", "converted to decimal");
-                for (int l = 0; l < length; l++) {
+                for (int l = 0; l < obj.len; l++) {
                     Log.i("pixel",
-                            Integer.toString(decimal[l]) + "="
+                            Integer.toString(obj.messageData[l]) + "="
                                     + Integer.toString(lsbBit[l][0])
                                     + Integer.toString(lsbBit[l][1])
                                     + Integer.toString(lsbBit[l][2])
@@ -283,7 +206,7 @@ public class RevealInfo extends ActionBarActivity implements OnClickListener {
                                     + Integer.toString(lsbBit[l][6])
                                     + Integer.toString(lsbBit[l][7]));
 
-                    myText = myText + (char) decimal[l];
+                    myText = myText + (char) obj.messageData[l];
                 }
             }
             return null;
@@ -304,7 +227,7 @@ public class RevealInfo extends ActionBarActivity implements OnClickListener {
          */
         private void convertToDecimal(int[][] lsbBit) {
 
-            for (int s = 0; s < length; s++) {
+            for (int s = 0; s < obj.len; s++) {
 
                 /**to store the eqt decimal value of 8 bit binary for length no of times*/
                 int eqtPixelDec = 0;
@@ -322,19 +245,19 @@ public class RevealInfo extends ActionBarActivity implements OnClickListener {
                 Log.i("pixel", Integer.toString(eqtPixelDec));
 
                 //stores the decimal value of binry pixels in array
-                decimal[s] = eqtPixelDec;
+                obj.messageData[s] = eqtPixelDec;
             }
         }
 
         /**
          * convert the extracted pixel value to binary
          */
-        private int convertToBinary(int n) {
+        private int takeLsbOfBinPixel(int n) {
 
-            eqtBin = Integer.parseInt(Integer.toBinaryString(n));
+            obj.eqtBin = Integer.parseInt(Integer.toBinaryString(n));
 
             //to return the lsb if the binary pixel
-            return (eqtBin % 2);
+            return (obj.eqtBin % 2);
         }
 
         /**length is 15 bit binary
@@ -351,15 +274,15 @@ public class RevealInfo extends ActionBarActivity implements OnClickListener {
         }
 
         //to check if info is available
-        private void checkData() {
+        public void checkData() {
             int pix;
             //script2[] is the data encrytped in green pix of the image
-           //if this info is available in the image, the image contains the info
+            //if this info is available in the image, the image contains the info
             //if there z no such encryption in image, there is no info available
             int script2[] = {78, 69, 65, 76};
             for (int i = 0; i < 4; i++) {
                 //extracts the green pix value of image
-                pix = Color.green(bmp.getPixel(0, i));
+                pix = Color.green(obj.bmp.getPixel(0, i));
 
                 //check if the extracted green pix value is same as the encrypted value
                 //if it is not same, there is no info available
@@ -420,11 +343,11 @@ public class RevealInfo extends ActionBarActivity implements OnClickListener {
             }
 
             if (requestCode == 10) {
-                bmp = (BitmapFactory.decodeStream(object.stream));
+                obj.bmp = (BitmapFactory.decodeStream(object.stream));
                 Log.i("path of image from gallery......******************.........",
                         picturePath + "");
                 myImage.setImageBitmap(decodeSampledBitmapFromResource(
-                        getResources(), picturePath, xDim, yDim));
+                        getResources(), picturePath, obj.xDim, obj.yDim));
 
             }
         }
@@ -462,15 +385,32 @@ public class RevealInfo extends ActionBarActivity implements OnClickListener {
         return inSampleSize;
     }
 
-    private void widgetsEventHandling() {
-        reveal = (Button) findViewById(R.id.reveal_button);
-        chooseImage = (Button) findViewById(R.id.choose_encoded_image);
+
+    private void init() {
+
+        mChooseImageBtn = (Button) findViewById(R.id.choose_encoded_image);
+        mRevealBtn = (Button) findViewById(R.id.reveal_button);
         myImage = (ImageView) findViewById(R.id.revealation_image);
-        reveal.setOnClickListener(this);
-        chooseImage.setOnClickListener(this);
-
         myTextView = (TextView) findViewById(R.id.textReveal);
-
         myTextView.setVisibility(View.INVISIBLE);
+
+
+
+        obj.toolbar = (Toolbar) findViewById(R.id.app_bar);
+        setSupportActionBar(obj.toolbar);
+
+
+        // Prepare the Interstitial Ad
+        obj.interstitial = new InterstitialAd(RevealInfo.this);
+// Insert the Ad Unit ID
+        obj.interstitial.setAdUnitId("ca-app-pub-71720509/214813");
+        //Locate the Banner Ad in activity_main.xml
+        obj.adView = (AdView) this.findViewById(R.id.adView);
+
+    }
+
+    private void setUpButtonListeners() {
+        mRevealBtn.setOnClickListener(this);
+        mChooseImageBtn.setOnClickListener(this);
     }
 }

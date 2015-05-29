@@ -48,30 +48,12 @@ import java.util.List;
 
 public class TextHide extends ActionBarActivity implements OnClickListener {
 
-
-    private InterstitialAd interstitial;
-
-
     private ShareActionProvider mShareActionProvider;
-
-    private Toolbar toolbar;
-
-    /**
-     * to keep track of pixel to be accessed
-     */
-    int m = 0;
-
-    int width = 0, height = 0;
-    int row, column;
-
-    int xDim, yDim;
 
     File file;
     File myDir;
 
     public L object = new L();
-
-    int decimalPixel[] = new int[5];
 
     private ProgressDialog pd;
 
@@ -84,57 +66,20 @@ public class TextHide extends ActionBarActivity implements OnClickListener {
         object.bmp = BitmapFactory.decodeResource(getResources(),
                 R.drawable.untitled);
 
-        toolbar = (Toolbar) findViewById(R.id.app_bar);
-        setSupportActionBar(toolbar);
-
         /** to set changes in bitmap, change it to mutable */
         object.bmp = object.bmp.copy(Bitmap.Config.ARGB_8888, true);
 
-        advertisement();
+        object.advertisement();
 
     }
 
-    private void advertisement() {
-        // Prepare the Interstitial Ad
-        interstitial = new InterstitialAd(TextHide.this);
-// Insert the Ad Unit ID
-        interstitial.setAdUnitId("ca-app-pub-71720509/214813");
-        //Locate the Banner Ad in activity_main.xml
-        AdView adView = (AdView) this.findViewById(R.id.adView);
-
-// Request for Ads
-        AdRequest adRequest = new AdRequest.Builder().build();
-
-
-// Load ads into Banner Ads
-        adView.loadAd(adRequest);
-
-// Load ads into Interstitial Ads
-        interstitial.loadAd(adRequest);
-
-// Prepare an Interstitial Ad Listener
-        interstitial.setAdListener(new AdListener() {
-            public void onAdLoaded() {
-// Call displayInterstitial() function
-                displayInterstitial();
-            }
-        });
-
-    }
-
-    public void displayInterstitial() {
-// If Ads are loaded, show Interstitial else show nothing.
-        if (interstitial.isLoaded()) {
-            interstitial.show();
-        }
-    }
 
     @Override
     /**Get the size of the Image view after the Activity has completely loaded*/
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        xDim = object.myImage.getWidth();
-        yDim = object.myImage.getHeight();
+        object.xDim = object.myImage.getWidth();
+        object.yDim = object.myImage.getHeight();
     }
 
     class MyTask extends AsyncTask<Void, Void, Void> {
@@ -170,24 +115,13 @@ public class TextHide extends ActionBarActivity implements OnClickListener {
                 for (int i = 0; i < object.len; i += 1)
                     object.messageData[i] = object.enteredString.charAt(i);
 
-                width = object.bmp.getWidth();
-                height = object.bmp.getHeight();
+                object.width = object.bmp.getWidth();
+                object.height = object.bmp.getHeight();
 
-                // to count the no of rows and columns of the image to be accessed
-                if (object.extractCount < width) {
-                    //if the no of bits<width of image, no of columns to access =no of bits
-                    //it is over in the 1st row itself
-                    column = object.extractCount;
-                    row = 1;
-                } else {
-                    //if bits>width, whole column is to b accessed
-                    //no of rows =
-                    column = width;
-                    row = ( object.extractCount / width);
-                }
+                object.countRowColumn();
 
                 /** arrays to store the values of pixels of image */
-                int[][] pixVal = new int[row][width];
+                int[][] pixVal = new int[object.row][object.width];
 
                 /** to convert length to binary n */
                 covertTo15Digit(object.len);
@@ -200,10 +134,10 @@ public class TextHide extends ActionBarActivity implements OnClickListener {
                     /** store character's 8 digit binary eqt */
 
                     // to convert the binary eqt to 8 digit
-                    convertTo8Digit(object.messageData[y], y);
+                    object.binary8Dig[y] = convertTo8Digit(object.messageData[y]);
                 }
 
-                for (int j = 0; j < row; j++) {
+                for (int j = 0; j < object.row; j++) {
                     /**
                      * to continue to decode as many pixels only as the length of
                      * the string and 1 for length
@@ -212,7 +146,7 @@ public class TextHide extends ActionBarActivity implements OnClickListener {
                     /**
                      * Controls movement through the image vertically
                      */
-                    for (int k = 0; k < column; k++) {
+                    for (int k = 0; k < object.column; k++) {
 
                         /**
                          * Controls movement through the image horizontally
@@ -222,10 +156,9 @@ public class TextHide extends ActionBarActivity implements OnClickListener {
                         pixVal[j][k] = Color.red(object.bmp.getPixel(j, k));
 
                         // to convert each red value to its eqt binary bits
-                        convertPixelTo8Digit(pixVal[j][k], m);
-                        m++;
+                        object.bin8BitRedPixel[object.m] = convertTo8Digit(pixVal[j][k]);
+                        object.m++;
                     }
-
                 }
                 // end of for loop for pixel extraction
 
@@ -233,7 +166,7 @@ public class TextHide extends ActionBarActivity implements OnClickListener {
                 compareChangeAndHide();
 
                 //to set the change in image by settting the pixel as the modified pixel array
-                changeImagePixel(decimalPixel);
+                changeImagePixel(object.decimalPixel);
 
                 //to save the mdified image
                 saveToStorage();
@@ -254,10 +187,8 @@ public class TextHide extends ActionBarActivity implements OnClickListener {
                 pd.dismiss();
             object.myImage.setImageBitmap(object.bmp);
 
-
             Log.i("Hello", "image set");
-            Toast.makeText(TextHide.this, "string hidden and saved", Toast.LENGTH_SHORT)
-                    .show();
+            object.t(TextHide.this, "string hidden and saved");
         }
 
     }
@@ -272,43 +203,25 @@ public class TextHide extends ActionBarActivity implements OnClickListener {
             object.bmp.setPixel(0, i, Color.argb(Color.alpha(object.bmp.getPixel(0, i)),
                     Color.red(object.bmp.getPixel(0, i)), pix,
                     Color.blue(object.bmp.getPixel(0, i))));
-            // bin = Integer.parseInt(Integer.toBinaryString(pix));
         }
 
-    }
-
-
-    /**
-     * @param n - pixel value
-     * @param y - the position of pixel
-     */
-    public void convertPixelTo8Digit(int n, int y) {
-
-        // conversion to binary
-        object.eqtBin = Integer.parseInt(Integer.toBinaryString(n));
-
-        // conversion to 8 bit for storing in array
-        for (int l = 7; (l >= 0); l--) {
-            object.bin8BitRedPixel[y][l] = object.eqtBin % 10;
-            object.eqtBin = object.eqtBin / 10;
-        }
     }
 
     /**
      * @param n -eqt binary of character at y position
-     * @param y -character index of the string
      */
-    public void convertTo8Digit(int n, int y) {
+    public int[] convertTo8Digit(int n) {
 
+        int[] bin8Bit = new int[8];
         //converting to binary
         object.eqtBin = Integer.parseInt(Integer.toBinaryString(n));
 
-
         //converting to 8 bit
         for (int l = 7; (l >= 0); l--) {
-            object.binary8Dig[y][l] = object.eqtBin % 10;
+            bin8Bit[l] = object.eqtBin % 10;
             object.eqtBin = object.eqtBin / 10;
         }
+        return bin8Bit;
     }
 
     /**
@@ -359,7 +272,7 @@ public class TextHide extends ActionBarActivity implements OnClickListener {
         int i;
 
         //size of array= no of bits hidden
-        decimalPixel = new int[object.extractCount];
+        object.decimalPixel = new int[object.extractCount];
 
         /** to access the lsb of binary pixel value */
         int p = 0;
@@ -371,26 +284,14 @@ public class TextHide extends ActionBarActivity implements OnClickListener {
 
             //to compare and modify the lsb, comparing with data bit
             if (object.binary15DigLength[i] != object.bin8BitRedPixel[m][7]) {
-                if ((p / 1) == 1)
-                    object.bin8BitRedPixel[m][7] = 0;
-                else
-                    object.bin8BitRedPixel[m][7] = 1;
+                compareLsbAndChange(p, m);
             }//lsb modified
 
-            //to convert modified binary pixel to decimal value
-            //1 pixel = 8 bit binary
-            int[] col = new int[8];
-            for (int k = 7; k >= 0; k--) {
-                col[k] = object.bin8BitRedPixel[m][k];
-            }
-
-            /**decimal value of modified pixel*/
-            decimalPixel[m] = convertPixelsToDecimal(col);
-
+            modifiedPixelToDecimal(m);
             m++;// to move to next pixel
+
         }//15 bit length hidden in 1st 15 pixels by changing the lsb
         //1 pixel for 1 bit
-
 
 
         // hide the string in the consecutive rows
@@ -399,29 +300,44 @@ public class TextHide extends ActionBarActivity implements OnClickListener {
             for (i = 0; i <= 7; i++) {// loop to hide 8 bit of 1 character
                 p = object.bin8BitRedPixel[m][7];// to access the lsb of binary
                 // pixel value
-
-                //compare and change lsb of pixel binary array
                 if (object.binary8Dig[j][i] != object.bin8BitRedPixel[m][7]) {
-                    if ((p / 1) == 1)
-                        object.bin8BitRedPixel[m][7] = 0;
-                    else
-                        object.bin8BitRedPixel[m][7] = 1;
-                }
 
+                    //compare and change lsb of pixel binary array
+                    compareLsbAndChange(p, m);
+                }
                 /** to display the modified pixel value,convert to 1d array */
                 //to convert modified binary pixel to decimal value
                 //1 pixel = 8 bit binary
-                int[] col = new int[8];
-                for (int k = 7; k >= 0; k--) {
-                    col[k] = object.bin8BitRedPixel[m][k];
-                }
-
-                decimalPixel[m] = convertPixelsToDecimal(col);
+                modifiedPixelToDecimal(m);
                 m++;// to move to next pixel
             }
-
         }
     }
+
+
+    /**
+     * @param p has the lsb to b compared
+     * @param m pixel position
+     */
+    private void compareLsbAndChange(int p, int m) {
+        if ((p / 1) == 1)
+            object.bin8BitRedPixel[m][7] = 0;
+        else
+            object.bin8BitRedPixel[m][7] = 1;
+    }
+
+    private void modifiedPixelToDecimal(int m) {
+        //to convert modified binary pixel to decimal value
+        //1 pixel = 8 bit binary
+        int[] col = new int[8];
+        for (int k = 7; k >= 0; k--) {
+            col[k] = object.bin8BitRedPixel[m][k];
+        }
+
+        /**decimal value of modified pixel*/
+        object.decimalPixel[m] = convertPixelsToDecimal(col);
+    }
+
 
     /**
      * to modify the image in accordance with the value of changed pixel
@@ -431,11 +347,11 @@ public class TextHide extends ActionBarActivity implements OnClickListener {
 
         int m = 0;
 
-        for (int j = 0; j < row; j++) {
+        for (int j = 0; j < object.row; j++) {
             /**
              * Controls movement through the image vertically
              */
-            for (int k = 0; k < column; k++) {
+            for (int k = 0; k < object.column; k++) {
 
                 /**
                  * Controls movement through the image horizontally
@@ -505,6 +421,18 @@ public class TextHide extends ActionBarActivity implements OnClickListener {
         object.ethideText = (EditText) findViewById(R.id.etText);
         object.myImage = (ImageView) findViewById(R.id.display_image);
 
+
+        object.toolbar = (Toolbar) findViewById(R.id.app_bar);
+        setSupportActionBar(object.toolbar);
+
+        // Prepare the Interstitial Ad
+        object.interstitial = new InterstitialAd(TextHide.this);
+// Insert the Ad Unit ID
+        object.interstitial.setAdUnitId("ca-app-pub-71720509/214813");
+        //Locate the Banner Ad in activity_main.xml
+        object.adView = (AdView) this.findViewById(R.id.adView);
+
+
         object.hideTxt.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -573,7 +501,7 @@ public class TextHide extends ActionBarActivity implements OnClickListener {
                 Log.i("path of image from gallery......******************.........",
                         picturePath + "");
                 object.myImage.setImageBitmap(decodeSampledBitmapFromResource(
-                        getResources(), picturePath, xDim, yDim));
+                        getResources(), picturePath, object.xDim, object.yDim));
 
             }
 
